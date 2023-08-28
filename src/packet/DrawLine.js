@@ -1,4 +1,12 @@
-﻿function DrawLine(x, y) {
+﻿// Import
+var BinaryWriter = require("./BinaryWriter");
+
+var writer = new BinaryWriter();
+writer.writeUInt8(0x20); // Packet ID
+writer.writeUInt32((this.item.nodeId ^ this.player.scrambleId) >>> 0);
+return writer.toBuffer();
+
+function DrawLine(x, y) {
     this.x = x;
     this.y = y;
 }
@@ -6,9 +14,9 @@
 module.exports = DrawLine;
 
 DrawLine.prototype.build = function (protocol) {
-    var buffer = new Buffer(5);
-    buffer.writeUInt8(0x15, 0);
-    buffer.writeInt16LE(this.x, 1, true);
-    buffer.writeInt16LE(this.y, 3, true);
-    return buffer;
+    var writer = new BinaryWriter();
+    writer.writeUInt8(0x15, 0);
+    writer.writeInt16(this.x);
+    writer.writeInt16(this.y);
+    return writer.toBuffer();    
 };

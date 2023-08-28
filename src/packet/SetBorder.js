@@ -1,7 +1,6 @@
 ﻿// Import
 var BinaryWriter = require("./BinaryWriter");
 
-
 function SetBorder(playerTracker, border, gameType, serverName) {
     this.playerTracker = playerTracker;
     this.border = border;
@@ -15,7 +14,7 @@ SetBorder.prototype.build = function (protocol) {
     var scrambleX = this.playerTracker.scrambleX;
     var scrambleY = this.playerTracker.scrambleY;
     if (this.gameType == null) {
-        var buffer = new Buffer(33);
+        var buffer = Buffer.alloc(33);
         buffer.writeUInt8(0x40, 0, true);
         buffer.writeDoubleLE(this.border.minx + scrambleX, 1, true);
         buffer.writeDoubleLE(this.border.miny + scrambleY, 9, true);
