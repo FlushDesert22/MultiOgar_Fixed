@@ -1,5 +1,5 @@
 ﻿# MultiOgar - Fixed
-Ogar game server with fast and smooth vanilla physics and multi-protocol support is now fixed!
+Ogar game server with fast and smooth vanilla physics and multi-protocol support is now fixed! Original MultiOgar by Barbosik [here](https://github.com/Barbosik/MultiOgar)!
 
 Current version: **1.3**
 
