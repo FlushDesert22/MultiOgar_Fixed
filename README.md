@@ -1,11 +1,11 @@
-﻿# MultiOgar - Fixed
+﻿# MultiOgar-Fixed
 Ogar game server with fast and smooth vanilla physics and multi-protocol support is now fixed! Original MultiOgar by Barbosik [here](https://github.com/Barbosik/MultiOgar)!
 
-Current version: **1.3**
+Current version: **1.4**
 
 ## Project Info
 ![Language](https://img.shields.io/badge/language-node.js-yellow.svg)
-[![License](https://img.shields.io/badge/license-APACHE2-blue.svg)](https://github.com/Barbosik/OgarMulti/blob/master/LICENSE.md)
+[![License](https://img.shields.io/badge/license-APACHE2-blue.svg)](https://github.com/FlushDesert22/MultiOgar_Fixed/blob/master/LICENSE.md)
 
 MultiOgar code based on Ogar code that I heavily modified, and will continue to update. (Yeah right)
 Almost all physics and protocol code were rewritten and optimized.
@@ -20,10 +20,10 @@ The goal is to make good and smooth physics and cleanup the code.
 You can found active Ogar servers on http://ogar-tracker.tk 
 It updates server information in realtime with no need to refresh the page.
 
-If you want to include your server in the list. Just install the latest version of MultiOgar server and enable server tracking with `serverTracker = 1` in gameserver.ini
+If you want to include your server in the list. Just install the latest version of MultiOgar-Fixed server and enable server tracking with `serverTracker = 1` in gameserver.ini
 
 If you have other server and want to include it in the list, just insert the code to ping ogar-tracker.tk into your server.
-You can found example in MultiOgar source code: https://github.com/Barbosik/MultiOgar/blob/master/src/GameServer.js#L1799-L1823
+You can found example in MultiOgar source code: https://github.com/FlushDesert22/MultiOgar_Fixed/blob/master/src/GameServer.js#L1799-L1823
 
 
 ## Screenshot
@@ -45,9 +45,9 @@ Version 1.2.8:
 
 #### Windows:
 * Download and install node.js: https://nodejs.org/en/download/ (64-bit recommended)
-* Download MultiOgar code: https://github.com/FlushDesert22/MultiOgar_Fixed/archive/master.zip
-* Unzip MultiOgar code into some folder
-* Start command line and execute from MultiOgar folder
+* Download MultiOgar-Fixed code: https://github.com/FlushDesert22/MultiOgar_Fixed/archive/master.zip
+* Unzip MultiOgar-Fixed code into some folder
+* Start command line and execute from MultiOgar-Fixed folder
 ```
 npm install
 ```
@@ -68,11 +68,11 @@ sudo apt-get install git
 # Install node.js:
 sudo apt-get install nodejs-legacy npm
 
-# Clone MultiOgar:
+# Clone MultiOgar-Fixed:
 git clone git://github.com/FlushDesert22/MultiOgar_Fixed.git
 
 # Install dependencies:
-cd MultiOgar
+cd MultiOgar_Fixed
 npm install
 
 # Run the server:
@@ -87,13 +87,11 @@ This lists Ogar clients and server trackers that I found on internet.
 
 ###Ogar server trackers
 
-Welcome to http://ogar-tracker.tk :)
-
 URL | Description
 --- | ---
 http://ogar.mivabe.nl/master | MivaBe, tracks a lot of servers
 
-Now you can allow MultiOgar to be listed on a server tracker.
+Now you can allow MultiOgar-Fixed to be listed on a server tracker.
 Just set `serverTracker = 1` in the gameserver.ini, and your server will appear
 on these pages: http://ogar.mivabe.nl/master , http://c0nsume.me/tracker.php
 If you don't want to include your server to tracker list, 
