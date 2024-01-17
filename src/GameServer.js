@@ -1822,16 +1822,8 @@ GameServer.prototype.pingServerTracker = function () {
         chat: this.config.serverChat ? 1 : 0,       // [optional]  0 - chat disabled, 1 - chat enabled
         os: os.platform()                           // [optional]  operating system
     };
-    trackerRequest({
-        host: 'ogar-tracker.tk',
-        port: 80,
-        path: '/api/ping',
-        method: 'PUT'
-    }, 'application/json', JSON.stringify(obj));
-    
-
     // mivabe.nl
-    // Why don't just to use JSON?
+    // Why don't you just use JSON?
     var data = 'current_players=' + totalPlayers +
                '&alive=' + alivePlayers +
                '&spectators=' + spectatePlayers +
@@ -1850,14 +1842,7 @@ GameServer.prototype.pingServerTracker = function () {
         path: '/master',
         method: 'POST'
     }, 'application/x-www-form-urlencoded', data);
-    
-    // c0nsume.me
-    trackerRequest({
-        host: 'c0nsume.me',
-        port: 80,
-        path: '/tracker.php',
-        method: 'POST'
-    }, 'application/x-www-form-urlencoded', data);
+
 };
 
 function trackerRequest(options, type, body) {
