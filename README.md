@@ -7,7 +7,7 @@ Current version: **1.3**
 ![Language](https://img.shields.io/badge/language-node.js-yellow.svg)
 [![License](https://img.shields.io/badge/license-APACHE2-blue.svg)](https://github.com/Barbosik/OgarMulti/blob/master/LICENSE.md)
 
-MultiOgar code based on Ogar code that I heavily modified, and will continue to update. 
+MultiOgar code based on Ogar code that I heavily modified, and will continue to update. (Yeah right)
 Almost all physics and protocol code were rewritten and optimized.
 The [OgarProject](https://ogarproject.com) owns Ogar, and I do not claim it as mine! 
 Original Ogar found [here](https://github.com/OgarProject/Ogar)
@@ -45,7 +45,7 @@ Version 1.2.8:
 
 #### Windows:
 * Download and install node.js: https://nodejs.org/en/download/ (64-bit recommended)
-* Download MultiOgar code: https://github.com/Barbosik/MultiOgar/archive/master.zip
+* Download MultiOgar code: https://github.com/FlushDesert22/MultiOgar_Fixed/archive/master.zip
 * Unzip MultiOgar code into some folder
 * Start command line and execute from MultiOgar folder
 ```
@@ -69,7 +69,7 @@ sudo apt-get install git
 sudo apt-get install nodejs-legacy npm
 
 # Clone MultiOgar:
-git clone git://github.com/Barbosik/MultiOgar.git
+git clone git://github.com/FlushDesert22/MultiOgar_Fixed.git
 
 # Install dependencies:
 cd MultiOgar
@@ -91,9 +91,7 @@ Welcome to http://ogar-tracker.tk :)
 
 URL | Description
 --- | ---
-http://ogar-tracker.tk | Ogar tracker
 http://ogar.mivabe.nl/master | MivaBe, tracks a lot of servers
-http://c0nsume.me/tracker.php | c0nsume.me server tracker
 
 Now you can allow MultiOgar to be listed on a server tracker.
 Just set `serverTracker = 1` in the gameserver.ini, and your server will appear
@@ -109,20 +107,18 @@ URL | Protocol | Description
 --- | --- | ---
 http://agar.io/?ip=127.0.0.1:443 | 8 | Vanilla
 http://ogar.mivabe.nl/?ip=127.0.0.1:443 | early 5 | MivaBe, pretty smooth, custom graphics (anime)
-http://play.ogarul.tk/?ip=127.0.0.1:443 | 4 | OgarUL, vanilla style
-http://c0nsume.me/private4.php?ip=127.0.0.1:443 | 5 | vanilla style
 
-###MultiOgar Servers
+###MultiOgar Servers (Might be offline)
 
-IP | Location | Game Mode | Web Site
---- | --- | --- | ---
-bubble-wars.tk:4444 | France | FFA | http://agar.io/?ip=bubble-wars.tk:4444 (Test server)
-bubble-wars.tk:4445 | France | FFA IM | http://agar.io/?ip=bubble-wars.tk:4445 (Test server)
-vps.simonorj.com:24270 | Montreal | Instant Merge | https://redd.it/4mufge
-164.132.48.230:600 | France | FFA | http://c0nsume.me/private4.php?ip=164.132.48.230:600
-149.202.87.51:443 | Paris |	FFA	| http://agarlist.com/
-134.119.17.230:443 | Germany | FFA | http://agarlist.com/
-192.34.61.57:443 | New York | FFA | http://agarlist.com/
+IP | Location | Game Mode
+--- | --- | ---
+bubble-wars.tk:4444 | France | FFA
+bubble-wars.tk:4445 | France |
+vps.simonorj.com:24270 | Montreal
+164.132.48.230:600 | France | FFA
+149.202.87.51:443 | Paris |	FFA
+134.119.17.230:443 | Germany | FFA
+192.34.61.57:443 | New York | FFA
 
 
 ## What's new:
