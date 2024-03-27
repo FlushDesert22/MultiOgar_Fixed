@@ -1,6 +1,6 @@
 ﻿{
-    "name": "MultiOgar",
-    "version": "1.2.69",
+    "name": "MultiOgar-Fixed",
+    "version": "1.4",
     "description": "Open source Ogar server",
     "author": "Barbosik (https://github.com/Barbosik/MultiOgar)",
     "homepage": "https://github.com/Barbosik/MultiOgar",
@@ -17,9 +17,9 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Barbosik/MultiOgar"
+        "url": "https://github.com/FlushDesert22/MultiOgar_Fixed"
     },
     "bugs": {
-        "url": "https://github.com/Barbosik/MultiOgar/issues"
+        "url": "https://github.com/FlushDesert22/MultiOgar_Fixed/issues"
     }
 }
