@@ -1,7 +1,7 @@
 ﻿# MultiOgar-Fixed
 Ogar game server with fast and smooth vanilla physics and multi-protocol support is now fixed! Original MultiOgar by Barbosik [here](https://github.com/Barbosik/MultiOgar)!
 
-Current version: **1.4**
+Current version: **1.3**
 
 ## Project Info
 ![Language](https://img.shields.io/badge/language-node.js-yellow.svg)
