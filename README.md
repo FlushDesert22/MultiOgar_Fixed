@@ -7,9 +7,9 @@ Current version: **1.4**
 ![Language](https://img.shields.io/badge/language-node.js-yellow.svg)
 [![License](https://img.shields.io/badge/license-APACHE2-blue.svg)](https://github.com/FlushDesert22/MultiOgar_Fixed/blob/master/LICENSE.md)
 
-MultiOgar code based on Ogar code that I heavily modified, and will continue to update. (Yeah right)
+MultiOgar code based on Ogar code that Barbosik heavily modified, and will continue to update. (Yeah, right)
 Almost all physics and protocol code were rewritten and optimized.
-The [OgarProject](https://ogarproject.com) owns Ogar, and I do not claim it as mine! 
+The [OgarProject](https://ogarproject.com) owns Ogar, and I nor Barbosik do not claim it as mine! 
 Original Ogar found [here](https://github.com/OgarProject/Ogar)
 
 
