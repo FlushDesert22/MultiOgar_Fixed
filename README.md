@@ -9,7 +9,7 @@ Current version: **1.3**
 
 MultiOgar code based on Ogar code that Barbosik heavily modified, and will continue to update. (Yeah, right)
 Almost all physics and protocol code were rewritten and optimized.
-The [OgarProject](https://ogarproject.com) owns Ogar, and I nor Barbosik do not claim it as mine! 
+The [OgarProject](https://ogarproject.com) owns Ogar, and I nor Barbosik claim it as ours! 
 Original Ogar found [here](https://github.com/OgarProject/Ogar)
 
 
