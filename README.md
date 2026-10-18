@@ -60,13 +60,19 @@ node index.js
 #### Linux:
 ```
 # First update your packages:
-sudo apt-get update
+(Debian/Ubuntu)  sudo apt-get update
+(Arch)           sudo pacman -Syu
+(Fedora)         sudo dnf upgrade
 
 # Install git:
-sudo apt-get install git
+(Debian/Ubuntu)  sudo apt-get install git
+(Arch)           sudo pacman -S git
+(Fedora)         sudo dnf install git
 
 # Install node.js:
-sudo apt-get install nodejs-legacy npm
+(Debian/Ubuntu)  sudo apt-get install nodejs-legacy npm
+(Arch)           sudo pacman -S nodejs npm
+(Fedora)         sudo dnf install nodejs
 
 # Clone MultiOgar-Fixed:
 git clone git://github.com/FlushDesert22/MultiOgar_Fixed.git
