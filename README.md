@@ -1,7 +1,7 @@
 ﻿# MultiOgar-Fixed
 Ogar game server with fast and smooth vanilla physics and multi-protocol support is now fixed! Original MultiOgar by Barbosik [here](https://github.com/Barbosik/MultiOgar)!
 
-Current version: **1.3**
+Current version: **1.3.1**
 
 ## Project Info
 ![Language](https://img.shields.io/badge/language-node.js-yellow.svg)
@@ -126,6 +126,7 @@ vps.simonorj.com:24270 | Montreal
 
 
 ## What's new:
+* 1.3.1: Fixed current gamemode compatibility (They all work now! ![YIPPEE](https://cdn.7tv.app/emote/01G9JW7WY80003SW3KYSMQE9YY/1x.avif) TODO: Make Zombie Team extend the Tournament class since it's a Tournament based gamemode)
 * 1.3: Fixed connection issues and binary messages
 * 1.2.47: Improved stability and performance; added mute/unmute command
 * Added support for secure websocket connections (TLS)
