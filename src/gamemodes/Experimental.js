@@ -2,6 +2,9 @@
 var Entity = require('../entity');
 var Logger = require('../modules/Logger');
 
+
+var Virus_onEat = null;
+
 function Experimental() {
     FFA.apply(this, Array.prototype.slice.call(arguments));
     
@@ -10,7 +13,6 @@ function Experimental() {
     this.specByLeaderboard = true;
     
     // Gamemode Specific Variables
-    this.nodesMother = [];
     this.tickMotherSpawn = 0;
     this.tickMotherUpdate = 0;
     
@@ -28,7 +30,7 @@ Experimental.prototype = new FFA();
 
 Experimental.prototype.spawnMotherCell = function (gameServer) {
     // Checks if there are enough mother cells on the map
-    if (this.nodesMother.length >= this.motherMinAmount) {
+    if (gameServer.nodesMother.length >= this.motherMinAmount) {
         return;
     }
     // Spawns a mother cell
@@ -58,34 +60,22 @@ Experimental.prototype.onServerInit = function (gameServer) {
     // Override
     
     // Special virus mechanics
+    Virus_onEat = Entity.Virus.prototype.onEat;
     Entity.Virus.prototype.onEat = function (prey) {
         // Pushes the virus
         var angle = prey.isMoving ? prey.getAngle() : this.getAngle();
         this.setBoost(16 * 20, angle);
     };
-    Entity.MotherCell.prototype.onAdd = function () {
-        self.nodesMother.push(this);
-    };
-    Entity.MotherCell.prototype.onRemove = function () {
-        var index = self.nodesMother.indexOf(this);
-        if (index != -1) {
-            self.nodesMother.splice(index, 1);
-        } else {
-            Logger.error("Experimental.onServerInit.MotherVirus.onRemove: Tried to remove a non existing virus!");
-        }
-    };
 };
 
 Experimental.prototype.onChange = function (gameServer) {
     // Remove all mother cells
-    for (var i in this.nodesMother) {
-        gameServer.removeNode(this.nodesMother[i]);
+    for (var i in gameServer.nodesMother) {
+        gameServer.removeNode(gameServer.nodesMother[i]);
     }
-    this.nodesMother = [];
+    gameServer.nodesMother = [];
     // Add back default functions
-    Entity.Virus.prototype.onEat = require('../Entity/Virus').prototype.onEat;
-    Entity.MotherCell.prototype.onAdd = require('../Entity/MotherCell').prototype.onAdd;
-    Entity.MotherCell.prototype.onRemove = require('../Entity/MotherCell').prototype.onRemove;
+    Entity.Virus.prototype.onEat = Virus_onEat;
 };
 
 Experimental.prototype.onTick = function (gameServer) {
@@ -98,8 +88,8 @@ Experimental.prototype.onTick = function (gameServer) {
     }
     if (this.tickMotherUpdate >= this.motherUpdateInterval) {
         this.tickMotherUpdate = 0;
-        for (var i = 0; i < this.nodesMother.length; i++) {
-            this.nodesMother[i].onUpdate();
+        for (var i = 0; i < gameServer.nodesMother.length; i++) {
+            gameServer.nodesMother[i].onUpdate();
         }
     } else {
         this.tickMotherUpdate++;

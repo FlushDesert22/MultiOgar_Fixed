@@ -21,6 +21,7 @@ function PlayerTracker(gameServer, socket) {
     this.clientNodes = [];
     this.cells = [];
     this.mergeOverride = false; // Triggered by console command
+    this.autoMerge = false;
     this._score = 0; // Needed for leaderboard
     this._scale = 1;
     this._scaleF = 1;
@@ -485,7 +486,7 @@ PlayerTracker.prototype.pressW = function () {
     if (this.spectate) {
         return;
     }
-    else if (this.gameServer.run) {
+    else if (this.gameServer.run && !this.gameServer.gameMode.paused) {
         this.gameServer.ejectMass(this);
     }
 };
@@ -502,9 +503,9 @@ PlayerTracker.prototype.pressSpace = function () {
         if (this.freeRoam || this.gameServer.largestClient == null)
             return;
         this.nextSpectateTarget();
-    } else if (this.gameServer.run) {
-        if (this.mergeOverride)
-            return;
+    } else if (this.gameServer.run && !this.gameServer.gameMode.paused) {
+         if (this.mergeOverride)
+             return;
         this.gameServer.splitCells(this);
     }
 };

@@ -1,5 +1,7 @@
 ﻿var Mode = require('./Mode');
 
+var GS_playerDisconnectTime = null;
+
 function Tournament() {
     Mode.apply(this, Array.prototype.slice.call(arguments));
     
@@ -19,6 +21,7 @@ function Tournament() {
     this.contenders = [];
     this.maxContenders = 12;
     
+    this.paused = true;
     this.winner;
     this.timer;
     this.timeLimit = 3600; // in seconds
@@ -35,7 +38,7 @@ Tournament.prototype.startGamePrep = function (gameServer) {
 };
 
 Tournament.prototype.startGame = function (gameServer) {
-    gameServer.run = true;
+    this.paused = false;
     this.gamePhase = 2;
     this.getSpectate(); // Gets a random person to spectate
     gameServer.config.playerDisconnectTime = this.dcTime; // Reset config
@@ -48,7 +51,7 @@ Tournament.prototype.endGame = function (gameServer) {
 };
 
 Tournament.prototype.endGameTimeout = function (gameServer) {
-    gameServer.run = false;
+    this.paused = true;
     this.gamePhase = 4;
     this.timer = this.endTime; // 30 Seconds
 };
@@ -68,6 +71,7 @@ Tournament.prototype.getSpectate = function () {
 };
 
 Tournament.prototype.prepare = function (gameServer) {
+    gameServer.run = true;
     // Remove all cells
     var len = gameServer.nodes.length;
     for (var i = 0; i < len; i++) {
@@ -83,7 +87,7 @@ Tournament.prototype.prepare = function (gameServer) {
     gameServer.bots.loadNames();
     
     // Pauses the server
-    gameServer.run = false;
+    this.paused = true;
     this.gamePhase = 0;
     
     // Get config values
@@ -122,8 +126,13 @@ Tournament.prototype.formatTime = function (time) {
 // Override
 
 Tournament.prototype.onServerInit = function (gameServer) {
+    GS_playerDisconnectTime = gameServer.config.playerDisconnectTime;
     this.prepare(gameServer);
 };
+
+Tournament.prototype.onChange = function (gameServer) {
+    gameServer.config.playerDisconnectTime = GS_playerDisconnectTime;
+}
 
 Tournament.prototype.onPlayerSpawn = function (gameServer, player) {
     // Only spawn players if the game hasnt started yet

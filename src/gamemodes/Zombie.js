@@ -1,5 +1,7 @@
 ﻿var Mode = require('./Mode');
 
+var GS_checkRigidCollision = null;
+var GS_resolveRigidCollision = null;
 function Zombie() {
     Mode.apply(this, Array.prototype.slice.call(arguments));
     
@@ -96,55 +98,74 @@ Zombie.prototype.onCellRemove = function (cell) {
     }
 };
 
-// TODO: remove it (move physics is managed by GameServer)
-Zombie.prototype.onCellMove = function (x1, y1, cell) {
-    var team = cell.owner.getTeam();
-    var r = cell.getSize();
+Zombie.prototype.onServerInit = function (gameServer) {
+    // Called when the server starts
+    gameServer.run = true;
     
-    // Find team
-    for (var i = 0; i < cell.owner.visibleNodes.length; i++) {
-        // Only collide with player cells
-        var check = cell.owner.visibleNodes[i];
-        
-        if ((check.getType() != 0) || (cell.owner == check.owner)) {
-            continue;
+    // Overwrite some server functions:
+    GameServer = require('../GameServer.js');
+    GS_checkRigidCollision = GameServer.prototype.checkRigidCollision;
+    GS_resolveRigidCollision = GameServer.prototype.resolveRigidCollision;
+    GameServer.prototype.checkRigidCollision = function (manifold) {
+        if (!manifold.cell1.owner || !manifold.cell2.owner)
+            return false;
+        if (manifold.cell1.owner != manifold.cell2.owner) {
+            // Different owners
+            if (manifold.cell1.owner.getTeam() == 0 || manifold.cell2.owner.getTeam() == 0)
+                return true;
+            return this.gameMode.haveTeams && manifold.cell1.owner.getTeam() == manifold.cell2.owner.getTeam();
         }
-        
-        // Collision with zombies
-        if (check.owner.getTeam() == team || check.owner.getTeam() == 0 || team == 0) {
-            // Check if in collision range
-            var collisionDist = check.getSize() + r; // Minimum distance between the 2 cells
-            if (!cell.simpleCollide(x1, y1, check, collisionDist)) {
-                // Skip
-                continue;
-            }
-            
-            // First collision check passed... now more precise checking
-            dist = cell.getDist(cell.position.x, cell.position.y, check.position.x, check.position.y);
-            
-            // Calculations
-            if (dist < collisionDist) { // Collided
-                if (check.owner.getTeam() == 0 && team != 0) {
-                    // turn player into zombie
-                    this.makeZombie(cell.owner);
-                } else if (team == 0 && check.owner.getTeam() != 0) {
-                    // turn other player into zombie
-                    this.makeZombie(check.owner);
-                }
-                // The moving cell pushes the colliding cell
-                var newDeltaY = check.position.y - y1;
-                var newDeltaX = check.position.x - x1;
-                var newAngle = Math.atan2(newDeltaX, newDeltaY);
-                
-                var move = collisionDist - dist;
-                
-                check.setPosition({
-                    x: check.position.x + (move * Math.sin(newAngle)) >> 0,
-                    y: check.position.y + (move * Math.cos(newAngle)) >> 0
-                });
+        // The same owner
+        if (manifold.cell1.owner.mergeOverride || manifold.cell1.owner.autoMerge)
+            return false;
+        var tick = this.getTick();
+        if (manifold.cell1.getAge(tick) < 15 || manifold.cell2.getAge(tick) < 15) {
+            // just splited => ignore
+            return false;
+        }
+        return !manifold.cell1.canRemerge() || !manifold.cell2.canRemerge();
+    };
+    GameServer.prototype.resolveRigidCollision = function (manifold, border) {
+        // distance from cell1 to cell2
+        var d = Math.sqrt(manifold.squared);
+        if (d <= 0) return;
+        var invd = 1 / d;
+        // normal
+        var nx = ~~manifold.dx * invd;
+        var ny = ~~manifold.dy * invd;
+        // body penetration distance
+        var penetration = manifold.r - d;
+        if (penetration <= 0) return;
+        // penetration vector = penetration * normal
+        var px = penetration * nx;
+        var py = penetration * ny;
+        // body impulse
+        var totalMass = manifold.cell1.getSizeSquared() + manifold.cell2.getSizeSquared();
+        if (totalMass <= 0) return;
+        var invTotalMass = 1 / totalMass;
+        var impulse1 = manifold.cell2.getSizeSquared() * invTotalMass;
+        var impulse2 = manifold.cell1.getSizeSquared() * invTotalMass;
+        if (manifold.cell1.owner && manifold.cell2.owner) {
+            if (manifold.cell2.owner.getTeam() == 0 && manifold.cell1.owner.getTeam() != 0) {
+                this.gameMode.makeZombie(manifold.cell1.owner);
+            } else if (manifold.cell1.owner.getTeam() == 0 && manifold.cell2.owner.getTeam() != 0) {
+                this.gameMode.makeZombie(manifold.cell2.owner);
             }
         }
-    }
+        // apply extrusion force
+        manifold.cell1.position.x -= px * impulse1;
+        manifold.cell1.position.y -= py * impulse1;
+        manifold.cell2.position.x += px * impulse2;
+        manifold.cell2.position.y += py * impulse2;
+        // clip to border bounds
+        manifold.cell1.checkBorder(border);
+        manifold.cell2.checkBorder(border);
+    };
+};
+
+Zombie.prototype.onChange = function (gameServer) {
+    GameServer.prototype.checkRigidCollision = GS_checkRigidCollision;
+    GameServer.prototype.resolveRigidCollision = GS_resolveRigidCollision;
 };
 
 Zombie.prototype.updateLB = function (gameServer) {

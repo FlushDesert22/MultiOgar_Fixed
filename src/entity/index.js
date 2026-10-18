@@ -5,4 +5,6 @@
     Virus: require('./Virus'),
     MotherCell: require('./MotherCell'),
     EjectedMass: require('./EjectedMass'),
+    Brain: require('./Brain'),
+    Hero: require('./Hero'),
 };

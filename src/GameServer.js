@@ -33,7 +33,10 @@ function GameServer() {
     this.largestClient; // Required for spectators
     this.nodes = [];
     this.nodesVirus = [];   // Virus nodes
+    this.nodesMother = [];  // Mother Cell (Experimental/Experimental Team) nodes
     this.nodesEjected = []; // Ejected mass nodes
+    this.nodesHero = []; // Hero (Zombie Team) nodes
+    this.nodesBrain = []; // Brain (Zombie Team) nodes
     this.quadTree = null;
     
     this.currentFood = 0;
@@ -705,6 +708,7 @@ GameServer.prototype.startingFood = function () {
 };
 
 GameServer.prototype.updateFood = function () {
+    if (this.gameMode.paused) return;
     var maxCount = this.config.foodMinAmount - this.currentFood;
     var spawnCount = Math.min(maxCount, this.config.foodSpawnAmount);
     for (var i = 0; i < spawnCount; i++) {
@@ -713,6 +717,7 @@ GameServer.prototype.updateFood = function () {
 };
 
 GameServer.prototype.updateVirus = function () {
+    if (this.gameMode.paused) return;
     var maxCount = this.config.virusMinAmount - this.nodesVirus.length;
     var spawnCount = Math.min(maxCount, 2);
     for (var i = 0; i < spawnCount; i++) {
@@ -869,7 +874,7 @@ GameServer.prototype.checkRigidCollision = function (manifold) {
             manifold.cell1.owner.getTeam() == manifold.cell2.owner.getTeam();
     }
     // The same owner
-    if (manifold.cell1.owner.mergeOverride)
+    if (manifold.cell1.owner.mergeOverride || manifold.cell1.owner.autoMerge)
         return false;
     var tick = this.getTick();
     if (manifold.cell1.getAge(tick) < 15 || manifold.cell2.getAge(tick) < 15) {
@@ -906,7 +911,7 @@ GameServer.prototype.resolveCollision = function (manifold) {
             // just splited => ignore
             return;
         }
-        if (!minCell.owner.mergeOverride) {
+        if (!minCell.owner.mergeOverride && !minCell.owner.autoMerge) {
             // not force remerge => check if can remerge
             if (!minCell.canRemerge() || !maxCell.canRemerge()) {
                 // cannot remerge
@@ -933,28 +938,24 @@ GameServer.prototype.resolveCollision = function (manifold) {
         // maxCell don't want to eat
         return;
     }
-    
     // Now maxCell can eat minCell
     minCell.isRemoved = true;
-    
     // Disable mergeOverride on the last merging cell
     // We need to disable it before onCosume to prevent merging loop
     // (onConsume may cause split for big mass)
     if (minCell.owner && minCell.owner.cells.length <= 2) {
         minCell.owner.mergeOverride = false;
+        minCell.owner.autoMerge = false;
     }
-    
     var isMinion = (maxCell.owner && maxCell.owner.isMinion) ||
         (minCell.owner && minCell.owner.isMinion);
     if (!isMinion) {
         // Consume effect
         maxCell.onEat(minCell);
         minCell.onEaten(maxCell);
-        
         // update bounds
         this.updateNodeQuad(maxCell);
     }
-    
     // Remove cell
     minCell.setKiller(maxCell);
     this.removeNode(minCell);
@@ -962,6 +963,7 @@ GameServer.prototype.resolveCollision = function (manifold) {
 
 GameServer.prototype.updateMoveEngine = function () {
     var tick = this.getTick();
+    if (this.gameMode.paused) return;
     // Move player cells
     for (var i in this.clients) {
         var client = this.clients[i].playerTracker;
@@ -1389,7 +1391,7 @@ GameServer.prototype.getNearestVirus = function (cell) {
 };
 
 GameServer.prototype.updateMassDecay = function () {
-    if (!this.config.playerDecayRate) {
+    if (!this.config.playerDecayRate || this.gameMode.paused) {
         return;
     }
     var decay = 1 - this.config.playerDecayRate * this.gameMode.decayMod;

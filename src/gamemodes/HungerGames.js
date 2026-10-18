@@ -1,6 +1,19 @@
 ﻿var Tournament = require('./Tournament');
 var Entity = require('../entity');
 
+var GS_serverBots = null;
+var GS_borderWidth = null;
+var GS_borderHeight = null;
+var GS_foodMinSize = null;
+var GS_foodMinAmount = null;
+var GS_foodMaxAmount = null;
+var GS_foodSpawnAmount = null;
+var GS_spawnInterval = null;
+var GS_virusMinAmount = null;
+var GS_virusMaxAmount = null;
+var GS_ejectSpawnPlayer = null;
+var GS_playerDisconnectTime = null;
+
 function HungerGames() {
     Tournament.apply(this, Array.prototype.slice.call(arguments));
     
@@ -128,19 +141,31 @@ HungerGames.prototype.onServerInit = function (gameServer) {
     
     // Resets spawn points
     this.contenderSpawnPoints = this.baseSpawnPoints.slice();
-    
+
     // Override config values
+    GS_serverBots = gameServer.config.serverBots;
+    GS_borderWidth = gameServer.config.borderWidth;
+    GS_borderHeight = gameServer.config.borderHeight;
+    GS_foodMinSize = gameServer.config.foodMinSize;
+    GS_foodMinAmount = gameServer.config.foodMinAmount;
+    GS_foodMaxAmount = gameServer.config.foodMaxAmount;
+    GS_foodSpawnAmount = gameServer.config.foodSpawnAmount;
+    GS_spawnInterval = gameServer.config.spawnInterval;
+    GS_virusMinAmount = gameServer.config.virusMinAmount;
+    GS_virusMaxAmount = gameServer.config.virusMaxAmount;
+    GS_ejectSpawnPlayer = gameServer.config.ejectSpawnPlayer;
+    GS_playerDisconnectTime = gameServer.config.playerDisconnectTime;
     if (gameServer.config.serverBots > this.maxContenders) {
         // The number of bots cannot exceed the maximum amount of contenders
         gameServer.config.serverBots = this.maxContenders;
     }
-    gameServer.config.spawnInterval = 20;
     gameServer.config.borderWidth = 3200;
     gameServer.config.borderHeight = 3200;
-    gameServer.config.foodSpawnAmount = 5; // This is hunger games
+    gameServer.config.foodMinSize = 10; // Food is scarce, but its worth more
     gameServer.config.foodMinAmount = 100;
     gameServer.config.foodMaxAmount = 200;
-    gameServer.config.foodMinSize = 10; // Food is scarce, but its worth more
+    gameServer.config.foodSpawnAmount = 5; // This is hunger games
+    gameServer.config.spawnInterval = 20;
     gameServer.config.virusMinAmount = 10; // We need to spawn some viruses in case someone eats them all
     gameServer.config.virusMaxAmount = 100;
     gameServer.config.ejectSpawnPlayer = 0;
@@ -286,6 +311,21 @@ HungerGames.prototype.onServerInit = function (gameServer) {
         y: mapHeight * .75
     });
 };
+
+HungerGames.prototype.onChange = function(gameServer) {
+    gameServer.config.serverBots = GS_serverBots;
+    gameServer.config.borderWidth = GS_borderWidth;
+    gameServer.config.borderHeight = GS_borderHeight;
+    gameServer.config.foodMinSize = GS_foodMinSize;
+    gameServer.config.foodMinAmount = GS_foodMinAmount;
+    gameServer.config.foodMaxAmount = GS_foodMaxAmount;
+    gameServer.config.foodSpawnAmount = GS_foodSpawnAmount;
+    gameServer.config.spawnInterval = GS_spawnInterval;
+    gameServer.config.virusMinAmount = GS_virusMinAmount;
+    gameServer.config.virusMaxAmount = GS_virusMaxAmount;
+    gameServer.config.ejectSpawnPlayer = GS_ejectSpawnPlayer;
+    gameServer.config.playerDisconnectTime = GS_playerDisconnectTime;
+}
 
 HungerGames.prototype.onPlayerSpawn = function (gameServer, player) {
     // Only spawn players if the game hasnt started yet

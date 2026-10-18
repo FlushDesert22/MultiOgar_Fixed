@@ -93,31 +93,6 @@ Teams.prototype.onCellRemove = function (cell) {
     }
 };
 
-Teams.prototype.onCellMove = function (cell, gameServer) {
-    var team = cell.owner.getTeam();
-    var r = cell.getSize();
-    
-    // Find team
-    for (var i = 0; i < cell.owner.visibleNodes.length; i++) {
-        // Only collide with player cells
-        var check = cell.owner.visibleNodes[i];
-        
-        if ((check.getType() != 0) || (cell.owner == check.owner)) {
-            continue;
-        }
-        
-        // Collision with teammates
-        if (check.owner.getTeam() == team) {
-            
-            var manifold = gameServer.checkCellCollision(cell, check); // Calculation info
-            if (manifold != null) { // Collided
-                // Call gameserver's function to collide cells
-                gameServer.resolveCollision(manifold);
-            }
-        }
-    }
-};
-
 Teams.prototype.updateLB = function (gameServer) {
     gameServer.leaderboardType = this.packetLB;
     var total = 0;

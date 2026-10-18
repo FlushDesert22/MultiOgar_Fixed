@@ -1,6 +1,7 @@
 ﻿var Cell = require('./Cell');
 var Food = require('./Food');
 var Virus = require('./Virus');
+var Logger = require('../modules/Logger');
 
 function MotherCell() {
     Cell.apply(this, Array.prototype.slice.call(arguments));
@@ -66,8 +67,15 @@ MotherCell.prototype.onUpdate = function () {
     this.gameServer.updateNodeQuad(this);
 };
 
-MotherCell.prototype.onAdd = function () {
+MotherCell.prototype.onAdd = function (gameServer) {
+    gameServer.nodesMother.push(this);
 };
 
-MotherCell.prototype.onRemove = function () {
+MotherCell.prototype.onRemove = function (gameServer) {
+    var index = gameServer.nodesMother.indexOf(this);
+    if (index != -1) {
+        gameServer.nodesMother.splice(index, 1);
+    } else {
+        Logger.error("MotherCell.onRemove: Tried to remove a non existing mothercell!");
+    }
 };
