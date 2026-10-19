@@ -1063,8 +1063,6 @@ GameServer.prototype.updateMoveEngine = function () {
     }
     eatCollisions = null;
     
-    //this.gameMode.onCellMove(cell1, this);
-    
     // Scan for ejected cell collisions (scan for ejected or virus only)
     rigidCollisions = [];
     eatCollisions = [];
