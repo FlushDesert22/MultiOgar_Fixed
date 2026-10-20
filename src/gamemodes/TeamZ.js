@@ -489,7 +489,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
         }
         // gain effect if human eat hero
         else if (this.gameMode.hasEatenHero(client)) {
-            for (let i = 0; i < client.cells.length; i++) {
+            for (var i = 0; i < client.cells.length; i++) {
                 var cell = client.cells[i];
                 client.autoMerge = true;
             }
@@ -526,7 +526,7 @@ TeamZ.prototype.onServerInit = function (gameServer) {
             }
         }
         if (this.gameServer.gameMode.hasEatenHero(client)) {
-            for (let i = 0; i < client.cells.length; i++) {
+            for (var i = 0; i < client.cells.length; i++) {
                 var cell = client.cells[i];
                 client.autoMerge = true;
             }
