@@ -72,7 +72,7 @@ Commands.list = {
         }
         // Output node information
         console.log("Clients:        " + fillChar(gameServer.clients.length, " ", 4, true) + " / " + gameServer.config.serverMaxConnections + " + bots");
-        console.log("Total nodes:" + fillChar(gameServer.nodes.length, " ", 8, true));
+        console.log("Total nodes:    " + fillChar(gameServer.nodes.length, " ", 8, true));
         console.log("- Client cells: " + fillChar(clientCells, " ", 4, true) + " / " + (gameServer.clients.length * gameServer.config.playerMaxCells));
         console.log("- Ejected cells:" + fillChar(gameServer.nodesEjected.length, " ", 4, true));
         console.log("- Foods:        " + fillChar(gameServer.currentFood, " ", 4, true) + " / " + gameServer.config.foodMaxAmount);
