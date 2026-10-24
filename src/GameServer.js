@@ -75,7 +75,7 @@ function GameServer() {
         serverPort: 443,            // Server port
         serverBind: '0.0.0.0',      // Network interface binding
         serverTracker: 0,           // Set to 1 if you want to show your server on the tracker http://ogar.mivabe.nl/master
-        serverGamemode: 0,          // Gamemode, 0 = FFA, 1 = Teams
+        serverGamemode: 0,          // Gamemode, 0 = FFA, 1 = Teams, 2 = Experimental, 10 = Tournament, 11 = Hunger Games, 12 = Zombie, 13 = Zombie Team, 14 = Experimental Team, 20 = Rainbow
         serverBots: 0,              // Number of player bots to spawn
         serverViewBaseX: 1920,      // Base client screen resolution. Used to calculate view area. Warning: high values may cause lag
         serverViewBaseY: 1080,      // min value is 1920x1080
